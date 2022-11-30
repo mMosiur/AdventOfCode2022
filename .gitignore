@@ -1,0 +1,18 @@
+# .NET Core build folders
+bin/
+obj/
+
+# Visual Studio
+.vs
+
+# VS Code
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/*.code-snippets
+
+# Ignore example input file I put in for testing and debugging
+example*.txt
+
+# Do not ignore example inputs in the Tests project
+!Tests/Inputs/*/example*.txt
