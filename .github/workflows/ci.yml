@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ubuntu-latest
 
@@ -18,8 +18,8 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Check code style
-      run: dotnet format --verify-no-changes --no-restore
+      run: dotnet format --no-restore --verify-no-changes
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore --configuration Release
     - name: Test
       run: dotnet test --no-build --verbosity normal
