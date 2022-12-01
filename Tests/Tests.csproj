@@ -28,4 +28,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Day01 - Calorie Counting\Day01.csproj" />
+  </ItemGroup>
+
 </Project>
