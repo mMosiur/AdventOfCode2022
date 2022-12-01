@@ -8,13 +8,24 @@ public sealed class Day01Solver : DaySolver
 	public override int Day => 1;
 	public override string Title => "Calorie Counting";
 
-	public IEnumerable<int> InputNumbers => InputLines.Select(int.Parse);
+	private readonly Day01SolverOptions _options;
+	private readonly IReadOnlyList<int> _caloriesCarriedByElves;
 
 	public Day01Solver(Day01SolverOptions options) : base(options)
 	{
-		// Initialize Day01 solver here.
-		// Property `Input` contains the raw input text.
-		// Property `InputLines` enumerates lines in the input text.
+		try
+		{
+			if (options.PartTwoTopCaloriesElvesCount < 1)
+			{
+				throw new ArgumentOutOfRangeException(nameof(_options), options.PartTwoTopCaloriesElvesCount, "The number of elves carrying the most calories must be greater than 0.");
+			}
+			_options = options;
+			_caloriesCarriedByElves = GenerateElvesCalorieCounts();
+		}
+		catch (Exception e)
+		{
+			throw new DaySolverException("Unable to generate elves calorie counts", e);
+		}
 	}
 
 	public Day01Solver(Action<Day01SolverOptions> configure)
@@ -26,51 +37,42 @@ public sealed class Day01Solver : DaySolver
 	{
 	}
 
-	public override string SolvePart1()
+	private List<int> GenerateElvesCalorieCounts()
 	{
-		int max = int.MinValue;
-		int? currentElf = null;
-
-		foreach (string line in InputLines.Append(""))
+		List<int> caloriesCarriedByElves = new();
+		int? calories = null;
+		foreach (string line in InputLines)
 		{
 			if (string.IsNullOrWhiteSpace(line))
 			{
-				if (currentElf is not null)
+				if (calories is not null)
 				{
-					max = Math.Max(max, currentElf.Value);
-					currentElf = null;
+					caloriesCarriedByElves.Add(calories.Value);
+					calories = null;
 				}
 				continue;
 			}
-			currentElf ??= 0;
-			int calories = int.Parse(line);
-			currentElf += calories;
+			calories ??= 0;
+			calories += int.Parse(line);
 		}
-		return $"{max}";
+		if (calories is not null)
+		{
+			caloriesCarriedByElves.Add(calories.Value);
+		}
+		return caloriesCarriedByElves;
+	}
+
+	public override string SolvePart1()
+	{
+		int result = _caloriesCarriedByElves.Max();
+		return $"{result}";
 	}
 
 	public override string SolvePart2()
 	{
-		List<int> elves = new();
-		int? currentElf = null;
-
-		foreach (string line in InputLines.Append(""))
-		{
-			if (string.IsNullOrWhiteSpace(line))
-			{
-				if (currentElf is not null)
-				{
-					elves.Add(currentElf.Value);
-					currentElf = null;
-				}
-				continue;
-			}
-			currentElf ??= 0;
-			int calories = int.Parse(line);
-			currentElf += calories;
-		}
-		elves.Sort();
-		int maxTopThree = elves.TakeLast(3).Sum();
-		return $"{maxTopThree}";
+		Comparer<int> descendingComparer = Comparer<int>.Create((int x, int y) => y.CompareTo(x));
+		IOrderedEnumerable<int> descendingCaloriesCounts = _caloriesCarriedByElves.Order(descendingComparer);
+		int result = descendingCaloriesCounts.Take(_options.PartTwoTopCaloriesElvesCount).Sum();
+		return $"{result}";
 	}
 }
