@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Day01 - Calorie Counting\Day01.csproj" />
+    <ProjectReference Include="..\Day02 - Rock Paper Scissors\Day02.csproj" />
   </ItemGroup>
 
 </Project>
