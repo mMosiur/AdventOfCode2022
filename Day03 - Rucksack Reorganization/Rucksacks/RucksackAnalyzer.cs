@@ -1,6 +1,8 @@
+using AdventOfCode.Year2022.Day03.EnumerableExtensions;
+
 namespace AdventOfCode.Year2022.Day03.Rucksacks;
 
-class RucksackAnalyzer
+sealed class RucksackAnalyzer
 {
 	private readonly IReadOnlyList<Rucksack> _rucksacks;
 
@@ -33,10 +35,36 @@ class RucksackAnalyzer
 		}
 	}
 
-	public int SumCommonItemTypesInRucksackPriorities()
+	public static ItemType FindCommonItemTypeBetweenRucksacks(IEnumerable<Rucksack> rucksacks)
+	{
+		HashSet<ItemType> set = rucksacks.First().Items.ToHashSet();
+		foreach (Rucksack rucksack in rucksacks.Skip(1))
+		{
+			set.IntersectWith(rucksack.Items.ToHashSet());
+		}
+		try
+		{
+			return set.Single();
+		}
+		catch (InvalidOperationException e)
+		{
+			throw new InvalidOperationException($"Rucksacks do not have exactly one common item type.", e);
+		}
+	}
+
+	public int SumCommonItemTypePrioritiesInRucksack()
 	{
 		return _rucksacks
 			.Select(FindCommonItemTypeBetweenCompartments)
+			.Select(CalculateItemPriority)
+			.Sum();
+	}
+
+	public int SumCommonItemTypePrioritiesInRucksackGroupOfSize(int groupSize)
+	{
+		return _rucksacks
+			.Group(groupSize)
+			.Select(FindCommonItemTypeBetweenRucksacks)
 			.Select(CalculateItemPriority)
 			.Sum();
 	}
