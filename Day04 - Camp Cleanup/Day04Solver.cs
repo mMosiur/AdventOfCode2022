@@ -1,5 +1,4 @@
 using AdventOfCode.Abstractions;
-using AdventOfCode.Common.Numerics;
 
 namespace AdventOfCode.Year2022.Day04;
 
@@ -9,18 +8,18 @@ public sealed class Day04Solver : DaySolver
 	public override int Day => 4;
 	public override string Title => "Camp Cleanup";
 
-	private readonly IReadOnlyList<(Interval<int>, Interval<int>)> _ranges;
+	private readonly CampCleaningAssignments _cleaningAssignments;
 
 	public Day04Solver(Day04SolverOptions options) : base(options)
 	{
-		_ranges = InputLines.Select(s =>
+		try
 		{
-			var parts = s.Split(',');
-			return (
-				new Interval<int>(int.Parse(parts[0].Split('-')[0]), int.Parse(parts[0].Split('-')[1])),
-				new Interval<int>(int.Parse(parts[1].Split('-')[0]), int.Parse(parts[1].Split('-')[1]))
-			);
-		}).ToList();
+			_cleaningAssignments = CampCleaningAssignments.Parse(InputLines);
+		}
+		catch (FormatException e)
+		{
+			throw new InputException("Invalid input.", e);
+		}
 	}
 
 	public Day04Solver(Action<Day04SolverOptions> configure)
@@ -34,19 +33,15 @@ public sealed class Day04Solver : DaySolver
 
 	public override string SolvePart1()
 	{
-		int result = _ranges.Count(r =>
-		{
-			return r.Item1.Contains(r.Item2) || r.Item2.Contains(r.Item1);
-		});
+		int result = _cleaningAssignments.Comparisons
+			.Count(r => r.Item1.Contains(r.Item2) || r.Item2.Contains(r.Item1));
 		return $"{result}";
 	}
 
 	public override string SolvePart2()
 	{
-		int result = _ranges.Count(r =>
-		{
-			return r.Item1.Overlaps(r.Item2) || r.Item2.Overlaps(r.Item1);
-		});
+		int result = _cleaningAssignments.Comparisons
+			.Count(r => r.Item1.Overlaps(r.Item2) || r.Item2.Overlaps(r.Item1));
 		return $"{result}";
 	}
 }
