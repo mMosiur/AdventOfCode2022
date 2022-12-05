@@ -14,11 +14,11 @@ indent_style = tab
 indent_size = 4
 
 # Config for md, json and csproj files
-[*.{md, json, csproj}]
+[*.{md,json,csproj}]
 indent_style = space
 indent_size = 2
 
-[*.md]
+[*.{md,txt}]
 trim_trailing_whitespace = false
 
 # Config for dotnet analyzer rules
