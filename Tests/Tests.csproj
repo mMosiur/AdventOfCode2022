@@ -33,6 +33,7 @@
     <ProjectReference Include="..\Day02 - Rock Paper Scissors\Day02.csproj" />
     <ProjectReference Include="..\Day03 - Rucksack Reorganization\Day03.csproj" />
     <ProjectReference Include="..\Day04 - Camp Cleanup\Day04.csproj" />
+    <ProjectReference Include="..\Day05 - Supply Stacks\Day05.csproj" />
   </ItemGroup>
 
 </Project>
