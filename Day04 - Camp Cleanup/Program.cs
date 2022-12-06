@@ -16,14 +16,6 @@ try
 	Day04Solver solver = new(options =>
 	{
 		options.InputFilepath = filepath ?? options.InputFilepath;
-		if (!File.Exists(options.InputFilepath))
-		{
-			using HttpClient http = new();
-			http.DefaultRequestHeaders.Add("cookie", "session=***REMOVED***");
-			using Stream httpStream = http.GetStreamAsync("https://adventofcode.com/2022/day/4/input").Result;
-			using Stream fileStream = File.Create(options.InputFilepath);
-			httpStream.CopyTo(fileStream);
-		}
 	});
 
 	Console.WriteLine($"--- Day {solver.Day}: {solver.Title} ---");
