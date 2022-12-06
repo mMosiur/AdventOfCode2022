@@ -14,8 +14,8 @@ public sealed class Day06Solver : DaySolver
 	{
 		_markerSequenceLengths = new Dictionary<MarkerType, int>
 		{
-			[MarkerType.StartOfPacket] = 4,
-			[MarkerType.StartOfMessage] = 14
+			[MarkerType.StartOfPacket] = options.StartOfPacketMarkerSequenceLength,
+			[MarkerType.StartOfMessage] = options.StartOfMessageMarkerSequenceLength
 		};
 	}
 
