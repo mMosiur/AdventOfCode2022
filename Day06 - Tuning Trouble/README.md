@@ -6,7 +6,14 @@ The preparations are finally complete; you and the Elves leave camp on foot and 
 
 As you move through the dense undergrowth, one of the Elves gives you a handheld **device**. He says that it has many fancy features, but the most important one to set up right now is the **communication system**.
 
-However, because he's heard you have [significant](https://github.com/mMosiur/AdventOfCode2016/tree/main/Day06%20-%20Signals%20and%20Noise) [experience](https://github.com/mMosiur/AdventOfCode2016/tree/main/Day25%20-%20Clock%20Signal) [dealing](https://github.com/mMosiur/AdventOfCode2019/tree/main/Day07%20-%20Amplification%20Circuit) [with](https://github.com/mMosiur/AdventOfCode2019/tree/main/Day09%20-%20Sensor%20Boost) [signal-based](https://github.com/mMosiur/AdventOfCode2019/tree/main/Day16%20-%20Flawed%20Frequency%20Transmission) [systems](https://github.com/mMosiur/AdventOfCode2021/tree/main/Day25%20-%20Sea%20Cucumber), he convinced the other Elves that it would be okay to give you their one malfunctioning device - surely you'll have no problem fixing it.
+However, because he's heard you have
+[significant](https://github.com/mMosiur/AdventOfCode2016/tree/main/Day06%20-%20Signals%20and%20Noise)
+[experience](https://github.com/mMosiur/AdventOfCode2016/tree/main/Day25%20-%20Clock%20Signal)
+[dealing](https://github.com/mMosiur/AdventOfCode2019/tree/main/Day07%20-%20Amplification%20Circuit)
+[with](https://github.com/mMosiur/AdventOfCode2019/tree/main/Day09%20-%20Sensor%20Boost)
+[signal-based](https://github.com/mMosiur/AdventOfCode2019/tree/main/Day16%20-%20Flawed%20Frequency%20Transmission)
+[systems](https://github.com/mMosiur/AdventOfCode2021/tree/main/Day25%20-%20Sea%20Cucumber),
+he convinced the other Elves that it would be okay to give you their one malfunctioning device - surely you'll have no problem fixing it.
 
 As if inspired by comedic timing, the device emits a few colorful sparks.
 

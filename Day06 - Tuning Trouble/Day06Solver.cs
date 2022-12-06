@@ -8,8 +8,15 @@ public sealed class Day06Solver : DaySolver
 	public override int Day => 6;
 	public override string Title => "Tuning Trouble";
 
+	private readonly IReadOnlyDictionary<MarkerType, int> _markerSequenceLengths;
+
 	public Day06Solver(Day06SolverOptions options) : base(options)
 	{
+		_markerSequenceLengths = new Dictionary<MarkerType, int>
+		{
+			[MarkerType.StartOfPacket] = 4,
+			[MarkerType.StartOfMessage] = 14
+		};
 	}
 
 	public Day06Solver(Action<Day06SolverOptions> configure)
@@ -21,31 +28,22 @@ public sealed class Day06Solver : DaySolver
 	{
 	}
 
+	private int FindForMarkerType(MarkerType markerType)
+	{
+		SignalMarkerLocator locator = new(_markerSequenceLengths);
+		using TextReader reader = new StringReader(Input.Trim());
+		return locator.FindMarkerLocation(reader, markerType);
+	}
+
 	public override string SolvePart1()
 	{
-		string input = Input.Trim();
-		LinkedList<char> list = new(input.Take(4));
-		int x = 4;
-		while (list.Distinct().Count() != 4)
-		{
-			list.AddLast(input[x]);
-			list.RemoveFirst();
-			x++;
-		}
-		return $"{x}";
+		int result = FindForMarkerType(MarkerType.StartOfPacket);
+		return $"{result}";
 	}
 
 	public override string SolvePart2()
 	{
-		string input = Input.Trim();
-		LinkedList<char> list = new(input.Take(14));
-		int x = 14;
-		while (list.Distinct().Count() != 14)
-		{
-			list.AddLast(input[x]);
-			list.RemoveFirst();
-			x++;
-		}
-		return $"{x}";
+		int result = FindForMarkerType(MarkerType.StartOfMessage);
+		return $"{result}";
 	}
 }
