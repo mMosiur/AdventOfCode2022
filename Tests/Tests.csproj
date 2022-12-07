@@ -35,6 +35,7 @@
     <ProjectReference Include="..\Day04 - Camp Cleanup\Day04.csproj" />
     <ProjectReference Include="..\Day05 - Supply Stacks\Day05.csproj" />
     <ProjectReference Include="..\Day06 - Tuning Trouble\Day06.csproj" />
+    <ProjectReference Include="..\Day07 - No Space Left On Device\Day07.csproj" />
   </ItemGroup>
 
 </Project>
