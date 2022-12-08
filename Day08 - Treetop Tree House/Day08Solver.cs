@@ -4,7 +4,7 @@ namespace AdventOfCode.Year2022.Day08;
 
 public sealed class Day08Solver : DaySolver
 {
-	private readonly int[,] _grid;
+	private readonly Forest _forest;
 
 	public override int Year => 2022;
 	public override int Day => 8;
@@ -12,15 +12,7 @@ public sealed class Day08Solver : DaySolver
 
 	public Day08Solver(Day08SolverOptions options) : base(options)
 	{
-		string[] arr = InputLines.ToArray();
-		_grid = new int[arr[0].Length, arr.Length];
-		for (int i = 0; i < arr.Length; i++)
-		{
-			for (int j = 0; j < arr[i].Length; j++)
-			{
-				_grid[j, i] = (int)char.GetNumericValue(arr[i][j]);
-			}
-		}
+		_forest = Forest.Parse(Input);
 	}
 
 	public Day08Solver(Action<Day08SolverOptions> configure)
@@ -34,11 +26,11 @@ public sealed class Day08Solver : DaySolver
 
 	private bool IsVisible(int x, int y)
 	{
-		int height = _grid[x, y];
+		byte height = _forest[x, y].Height;
 		bool visible = true;
 		for (int yy = y - 1; yy >= 0; yy--)
 		{
-			int otherHeight = _grid[x, yy];
+			int otherHeight = _forest[x, yy].Height;
 			if (otherHeight >= height)
 			{
 				visible = false;
@@ -47,9 +39,9 @@ public sealed class Day08Solver : DaySolver
 		}
 		if (visible) return true;
 		visible = true;
-		for (int yy = y + 1; yy < _grid.GetLength(1); yy++)
+		for (int yy = y + 1; yy < _forest.Height; yy++)
 		{
-			int otherHeight = _grid[x, yy];
+			int otherHeight = _forest[x, yy].Height;
 			if (otherHeight >= height)
 			{
 				visible = false;
@@ -60,7 +52,7 @@ public sealed class Day08Solver : DaySolver
 		visible = true;
 		for (int xx = x - 1; xx >= 0; xx--)
 		{
-			int otherHeight = _grid[xx, y];
+			int otherHeight = _forest[xx, y].Height;
 			if (otherHeight >= height)
 			{
 				visible = false;
@@ -69,9 +61,9 @@ public sealed class Day08Solver : DaySolver
 		}
 		if (visible) return true;
 		visible = true;
-		for (int xx = x + 1; xx < _grid.GetLength(0); xx++)
+		for (int xx = x + 1; xx < _forest.Width; xx++)
 		{
-			int otherHeight = _grid[xx, y];
+			int otherHeight = _forest[xx, y].Height;
 			if (otherHeight >= height)
 			{
 				visible = false;
@@ -84,13 +76,13 @@ public sealed class Day08Solver : DaySolver
 
 	private int ScenicScore(int x, int y)
 	{
-		int height = _grid[x, y];
+		int height = _forest[x, y].Height;
 		int score = 1;
 		int count = 0;
 		for (int yy = y - 1; yy >= 0; yy--)
 		{
 			count++;
-			int otherHeight = _grid[x, yy];
+			int otherHeight = _forest[x, yy].Height;
 			if (otherHeight >= height) break;
 		}
 		score *= count;
@@ -98,23 +90,23 @@ public sealed class Day08Solver : DaySolver
 		for (int xx = x - 1; xx >= 0; xx--)
 		{
 			count++;
-			int otherHeight = _grid[xx, y];
+			int otherHeight = _forest[xx, y].Height;
 			if (otherHeight >= height) break;
 		}
 		score *= count;
 		count = 0;
-		for (int xx = x + 1; xx < _grid.GetLength(0); xx++)
+		for (int xx = x + 1; xx < _forest.Width; xx++)
 		{
 			count++;
-			int otherHeight = _grid[xx, y];
+			int otherHeight = _forest[xx, y].Height;
 			if (otherHeight >= height) break;
 		}
 		score *= count;
 		count = 0;
-		for (int yy = y + 1; yy < _grid.GetLength(1); yy++)
+		for (int yy = y + 1; yy < _forest.Height; yy++)
 		{
 			count++;
-			int otherHeight = _grid[x, yy];
+			int otherHeight = _forest[x, yy].Height;
 			if (otherHeight >= height) break;
 		}
 		score *= count;
@@ -124,9 +116,9 @@ public sealed class Day08Solver : DaySolver
 	public override string SolvePart1()
 	{
 		int count = 0;
-		for (int i = 0; i < _grid.GetLength(0); i++)
+		for (int i = 0; i < _forest.Width; i++)
 		{
-			for (int j = 0; j < _grid.GetLength(1); j++)
+			for (int j = 0; j < _forest.Height; j++)
 			{
 				bool visible = IsVisible(i, j);
 				if (visible)
@@ -141,9 +133,9 @@ public sealed class Day08Solver : DaySolver
 	public override string SolvePart2()
 	{
 		int max = int.MinValue;
-		for (int i = 0; i < _grid.GetLength(0); i++)
+		for (int i = 0; i < _forest.Width; i++)
 		{
-			for (int j = 0; j < _grid.GetLength(1); j++)
+			for (int j = 0; j < _forest.Height; j++)
 			{
 				int scenicScore = ScenicScore(i, j);
 				if (scenicScore > max)
