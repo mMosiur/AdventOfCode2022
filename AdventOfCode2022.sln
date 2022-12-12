@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day07", "Day07 - No Space L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day08", "Day08 - Treetop Tree House\Day08.csproj", "{C49BD89F-7C8D-42CF-B073-0DB1EC35A715}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day09", "Day09 - Rope Bridge\Day09.csproj", "{58DCD90D-4B48-4E46-8B0A-3D764E309AE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,5 +67,9 @@ Global
 		{C49BD89F-7C8D-42CF-B073-0DB1EC35A715}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C49BD89F-7C8D-42CF-B073-0DB1EC35A715}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C49BD89F-7C8D-42CF-B073-0DB1EC35A715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58DCD90D-4B48-4E46-8B0A-3D764E309AE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58DCD90D-4B48-4E46-8B0A-3D764E309AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58DCD90D-4B48-4E46-8B0A-3D764E309AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58DCD90D-4B48-4E46-8B0A-3D764E309AE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
