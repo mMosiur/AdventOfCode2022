@@ -24,130 +24,17 @@ public sealed class Day08Solver : DaySolver
 	{
 	}
 
-	private bool IsVisible(int x, int y)
-	{
-		byte height = _forest[x, y].Height;
-		bool visible = true;
-		for (int yy = y - 1; yy >= 0; yy--)
-		{
-			int otherHeight = _forest[x, yy].Height;
-			if (otherHeight >= height)
-			{
-				visible = false;
-				break;
-			}
-		}
-		if (visible) return true;
-		visible = true;
-		for (int yy = y + 1; yy < _forest.Height; yy++)
-		{
-			int otherHeight = _forest[x, yy].Height;
-			if (otherHeight >= height)
-			{
-				visible = false;
-				break;
-			}
-		}
-		if (visible) return true;
-		visible = true;
-		for (int xx = x - 1; xx >= 0; xx--)
-		{
-			int otherHeight = _forest[xx, y].Height;
-			if (otherHeight >= height)
-			{
-				visible = false;
-				break;
-			}
-		}
-		if (visible) return true;
-		visible = true;
-		for (int xx = x + 1; xx < _forest.Width; xx++)
-		{
-			int otherHeight = _forest[xx, y].Height;
-			if (otherHeight >= height)
-			{
-				visible = false;
-				break;
-			}
-		}
-		if (visible) return true;
-		return false;
-	}
-
-	private int ScenicScore(int x, int y)
-	{
-		int height = _forest[x, y].Height;
-		int score = 1;
-		int count = 0;
-		for (int yy = y - 1; yy >= 0; yy--)
-		{
-			count++;
-			int otherHeight = _forest[x, yy].Height;
-			if (otherHeight >= height) break;
-		}
-		score *= count;
-		count = 0;
-		for (int xx = x - 1; xx >= 0; xx--)
-		{
-			count++;
-			int otherHeight = _forest[xx, y].Height;
-			if (otherHeight >= height) break;
-		}
-		score *= count;
-		count = 0;
-		for (int xx = x + 1; xx < _forest.Width; xx++)
-		{
-			count++;
-			int otherHeight = _forest[xx, y].Height;
-			if (otherHeight >= height) break;
-		}
-		score *= count;
-		count = 0;
-		for (int yy = y + 1; yy < _forest.Height; yy++)
-		{
-			count++;
-			int otherHeight = _forest[x, yy].Height;
-			if (otherHeight >= height) break;
-		}
-		score *= count;
-		return score;
-	}
-
 	public override string SolvePart1()
 	{
-		int count = 0;
-		for (int i = 0; i < _forest.Width; i++)
-		{
-			for (int j = 0; j < _forest.Height; j++)
-			{
-				bool visible = IsVisible(i, j);
-				if (visible)
-				{
-					count++;
-				}
-			}
-		}
-		return $"{count}";
+		TreeHouseLocationAnalyzer analyzer = new(_forest);
+		int result = analyzer.CountTreesVisibleFromOutside();
+		return $"{result}";
 	}
 
 	public override string SolvePart2()
 	{
-		int max = int.MinValue;
-		for (int i = 0; i < _forest.Width; i++)
-		{
-			for (int j = 0; j < _forest.Height; j++)
-			{
-				int scenicScore = ScenicScore(i, j);
-				if (scenicScore > max)
-				{
-					max = scenicScore;
-				}
-				if (scenicScore > 8)
-				{
-					Console.Write("");
-				}
-			}
-		}
-		return $"{max}";
+		TreeHouseLocationAnalyzer analyzer = new(_forest);
+		(_, int result) = analyzer.FindBestTreeLocation();
+		return $"{result}";
 	}
 }

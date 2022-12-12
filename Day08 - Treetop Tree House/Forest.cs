@@ -4,13 +4,18 @@ sealed partial class Forest
 {
 	private readonly Tree[,] _trees;
 
-	public int Width => _trees.GetLength(0);
-	public int Height => _trees.GetLength(1);
+	public Rectangle Area { get; }
 
 	public Forest(Tree[,] trees)
 	{
+		ArgumentNullException.ThrowIfNull(trees);
 		_trees = trees;
+		Area = new Rectangle
+		{
+			XRange = new(0, _trees.GetLength(0) - 1),
+			YRange = new(0, _trees.GetLength(1) - 1)
+		};
 	}
 
-	public Tree this[int x, int y] => _trees[x, y];
+	public Tree this[Point point] => _trees[point.X, point.Y];
 }
