@@ -21,26 +21,13 @@ class CrtScreen
 		private set => _pixels[point.X, point.Y] = value;
 	}
 
-	public void Reset()
-	{
-		foreach (Point point in _bounds.Points)
-		{
-			this[point] = default;
-		}
-		_cpu.Reset();
-	}
-
-	private bool IsPointInSprite(Point point)
-	{
-		return Math.Abs(_cpu.RegisterX - point.Y) <= 1;
-	}
-
 	public void Draw()
 	{
 		foreach (Point point in _bounds.Points)
 		{
-			this[point] = IsPointInSprite(point) ? '#' : '.';
-			_cpu.ClockTick();
+			int registerDuringCycle = _cpu.ClockTick();
+			bool isPointInSprite = Math.Abs(registerDuringCycle - point.Y) <= 1;
+			this[point] = isPointInSprite ? '#' : '.';
 		}
 	}
 
