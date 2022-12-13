@@ -4,11 +4,11 @@ namespace AdventOfCode.Year2022.Day10;
 
 public sealed class Day10Solver : DaySolver
 {
-	private readonly List<Instruction> _instructions;
-
 	public override int Year => 2022;
 	public override int Day => 10;
 	public override string Title => "Cathode-Ray Tube";
+
+	private readonly List<Instruction> _instructions;
 
 	public Day10Solver(Day10SolverOptions options) : base(options)
 	{
@@ -26,24 +26,27 @@ public sealed class Day10Solver : DaySolver
 
 	public override string SolvePart1()
 	{
+		IReadOnlyList<int> targetCycles = new int[] { 20, 60, 100, 140, 180, 220 };
+
+		Cpu cpu = new(_instructions, startingRegisterX: 1);
 		int sum = 0;
-		int[] targets = new int[] { 20, 60, 100, 140, 180, 220 };
-		Cpu cpu = new(_instructions, 1);
-		while (cpu.ClockCycle < 220)
+		foreach (int targetCycle in targetCycles)
 		{
-			int registerValue = cpu.ClockTick();
-			if (targets.Contains(cpu.ClockCycle))
+			int registerValue = cpu.RegisterX;
+			while (cpu.ClockCycle < targetCycle)
 			{
-				sum += registerValue * cpu.ClockCycle;
+				registerValue = cpu.ClockTick();
 			}
+			int signalStrength = registerValue * targetCycle;
+			sum += signalStrength;
 		}
-		return $"{sum} ({sum == 14620})";
+		return $"{sum}";
 	}
 
 	public override string SolvePart2()
 	{
-		Cpu cpu = new(_instructions, 1);
-		CrtScreen screen = new(cpu, 40, 6);
+		Cpu cpu = new(_instructions, startingRegisterX: 1);
+		CrtScreen screen = new(cpu, width: 40, height: 6);
 		screen.Draw();
 		return screen.ToString();
 	}
