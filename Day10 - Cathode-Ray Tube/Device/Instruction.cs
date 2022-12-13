@@ -1,6 +1,6 @@
-namespace AdventOfCode.Year2022.Day10;
+namespace AdventOfCode.Year2022.Day10.Device;
 
-struct Instruction
+readonly struct Instruction
 {
 	public OperationCode Operation { get; }
 	public int Argument { get; }

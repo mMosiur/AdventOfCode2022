@@ -1,8 +1,8 @@
 using System.Text;
 
-namespace AdventOfCode.Year2022.Day10;
+namespace AdventOfCode.Year2022.Day10.Device;
 
-class CrtScreen
+sealed class CrtScreen
 {
 	private readonly Cpu _cpu;
 	private readonly Rectangle _bounds;

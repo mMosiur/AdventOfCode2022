@@ -1,4 +1,5 @@
 using AdventOfCode.Abstractions;
+using AdventOfCode.Year2022.Day10.Device;
 
 namespace AdventOfCode.Year2022.Day10;
 

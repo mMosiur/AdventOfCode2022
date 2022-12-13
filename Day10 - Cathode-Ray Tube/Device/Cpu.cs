@@ -1,6 +1,6 @@
-namespace AdventOfCode.Year2022.Day10;
+namespace AdventOfCode.Year2022.Day10.Device;
 
-class Cpu
+sealed class Cpu
 {
 	private readonly Instruction[] _program;
 	private int _registerX;
