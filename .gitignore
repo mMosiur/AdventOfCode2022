@@ -6,10 +6,10 @@ obj/
 .vs
 
 # VS Code
-.vscode/*
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/*.code-snippets
+**/.vscode/*
+!**/.vscode/tasks.json
+!**/.vscode/launch.json
+!**/.vscode/*.code-snippets
 
 # Ignore example input file I put in for testing and debugging
 example*.txt
