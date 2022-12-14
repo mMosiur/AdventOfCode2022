@@ -1,6 +1,6 @@
 namespace AdventOfCode.Year2022.Day11;
 
-class Monkey : ICloneable
+sealed class Monkey : ICloneable
 {
 	public ushort Index { get; }
 	public IList<Item> Items { get; }

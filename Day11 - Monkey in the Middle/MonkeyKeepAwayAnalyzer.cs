@@ -1,6 +1,6 @@
 namespace AdventOfCode.Year2022.Day11;
 
-class MonkeyKeepAwayAnalyzer
+sealed class MonkeyKeepAwayAnalyzer
 {
 	private readonly IReadOnlyList<Monkey> _monkeys;
 

@@ -4,7 +4,7 @@ using AdventOfCode.Common.EnumerableExtensions;
 
 namespace AdventOfCode.Year2022.Day11;
 
-class MonkeyInfoParser
+static class MonkeyInfoParser
 {
 	private static readonly Regex _headerRegex = new(@"^[ \t]*Monkey (\d+):[ \t]*$", RegexOptions.IgnoreCase);
 	private static readonly Regex _startingItemsRegex = new(@"^[ \t]*Starting items: ([\d, ]+)[ \t]*$", RegexOptions.IgnoreCase);
