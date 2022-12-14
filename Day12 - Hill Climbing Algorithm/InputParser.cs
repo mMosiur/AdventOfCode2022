@@ -2,7 +2,7 @@ using AdventOfCode.Common.EnumerableExtensions;
 
 namespace AdventOfCode.Year2022.Day12;
 
-class InputParser
+sealed class InputParser
 {
 	private readonly char _startChar;
 	private readonly char _endChar;
@@ -21,7 +21,7 @@ class InputParser
 		_endChar = endChar;
 	}
 
-	public (int[,] Map, Point Start, Point End) Parse(IEnumerable<string> lines)
+	public HillMap Parse(IEnumerable<string> lines)
 	{
 		int height = lines.Count();
 		int width = lines.First().Length;
@@ -51,6 +51,6 @@ class InputParser
 				map[x, y] = elevation;
 			}
 		}
-		return (map, start, end);
+		return new(map, start, end);
 	}
 }
