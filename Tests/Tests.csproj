@@ -40,6 +40,7 @@
     <ProjectReference Include="..\Day09 - Rope Bridge\Day09.csproj" />
     <ProjectReference Include="..\Day10 - Cathode-Ray Tube\Day10.csproj" />
     <ProjectReference Include="..\Day11 - Monkey in the Middle\Day11.csproj" />
+    <ProjectReference Include="..\Day12 - Hill Climbing Algorithm\Day12.csproj" />
   </ItemGroup>
 
 </Project>
