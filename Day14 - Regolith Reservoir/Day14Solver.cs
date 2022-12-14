@@ -10,13 +10,11 @@ public sealed class Day14Solver : DaySolver
 
 	private readonly Point _sandOrigin;
 	private readonly IReadOnlyList<Path> _rockPaths;
-	private readonly Map _map;
 
 	public Day14Solver(Day14SolverOptions options) : base(options)
 	{
 		_sandOrigin = new Point(500, 0);
 		_rockPaths = InputLines.Select(Path.Parse).ToList();
-		_map = Map.BuildFromRockPaths(_sandOrigin, _rockPaths);
 	}
 
 	public Day14Solver(Action<Day14SolverOptions> configure)
@@ -30,18 +28,27 @@ public sealed class Day14Solver : DaySolver
 
 	public override string SolvePart1()
 	{
+		Map map = Map.BuildFromRockPaths(_sandOrigin, _rockPaths);
 		int count = 0;
-		bool dropped = _map.DropSand(_sandOrigin);
+		bool dropped = map.DropSand();
 		while (dropped)
 		{
 			count++;
-			dropped = _map.DropSand(_sandOrigin);
+			dropped = map.DropSand();
 		}
 		return $"{count}";
 	}
 
 	public override string SolvePart2()
 	{
-		return $"UNSOLVED";
+		Map map = Map.BuildFromRockPaths(_sandOrigin, _rockPaths, floorOffset: 2);
+		int count = 0;
+		bool dropped = map.DropSand();
+		while (dropped)
+		{
+			count++;
+			dropped = map.DropSand();
+		}
+		return $"{count}";
 	}
 }
