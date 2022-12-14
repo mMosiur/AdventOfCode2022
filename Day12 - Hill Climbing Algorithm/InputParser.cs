@@ -4,21 +4,21 @@ namespace AdventOfCode.Year2022.Day12;
 
 sealed class InputParser
 {
-	private readonly char _startChar;
-	private readonly char _endChar;
+	private readonly char _currentLocationChar;
+	private readonly char _bestSignalLocationChar;
 
-	public InputParser(char startChar, char endChar)
+	public InputParser(char currentLocationChar, char bestSignalLocationChar)
 	{
-		if (char.IsAsciiLetterLower(startChar))
+		if (char.IsAsciiLetterLower(currentLocationChar))
 		{
-			throw new ArgumentException($"Start char cannot be a lowercase ASCII letter (was '{startChar}').", nameof(startChar));
+			throw new ArgumentException($"Current location char cannot be a lowercase ASCII letter (was '{currentLocationChar}').", nameof(currentLocationChar));
 		}
-		if (char.IsAsciiLetterLower(endChar))
+		if (char.IsAsciiLetterLower(bestSignalLocationChar))
 		{
-			throw new ArgumentException($"End char cannot be a lowercase ASCII letter (was '{endChar}').", nameof(endChar));
+			throw new ArgumentException($"Best signal location char cannot be a lowercase ASCII letter (was '{bestSignalLocationChar}').", nameof(bestSignalLocationChar));
 		}
-		_startChar = startChar;
-		_endChar = endChar;
+		_currentLocationChar = currentLocationChar;
+		_bestSignalLocationChar = bestSignalLocationChar;
 	}
 
 	public HillMap Parse(IEnumerable<string> lines)
@@ -33,12 +33,12 @@ sealed class InputParser
 			foreach ((char c, int y) in line.WithIndex())
 			{
 				char charElevation = c;
-				if (c == _startChar)
+				if (c == _currentLocationChar)
 				{
 					start = new Point(x, y);
 					charElevation = 'a';
 				}
-				else if (c == _endChar)
+				else if (c == _bestSignalLocationChar)
 				{
 					end = new Point(x, y);
 					charElevation = 'z';

@@ -3,10 +3,14 @@ namespace AdventOfCode.Year2022.Day12;
 sealed class HillTraverser
 {
 	private readonly HillMap _map;
+	private readonly byte? _maxDownwardReach;
+	private readonly byte? _maxUpwardReach;
 
-	public HillTraverser(HillMap map)
+	public HillTraverser(HillMap map, byte? maxDownwardReach = null, byte? maxUpwardReach = null)
 	{
 		_map = map;
+		_maxDownwardReach = maxDownwardReach;
+		_maxUpwardReach = maxUpwardReach;
 	}
 
 	/// <summary>
@@ -45,7 +49,11 @@ sealed class HillTraverser
 			foreach (Point newPoint in _map.GetAdjacentPointsOf(location))
 			{
 				int heightDifference = _map[newPoint] - _map[location];
-				if (heightDifference > 1)
+				if (_maxUpwardReach.HasValue && heightDifference > _maxUpwardReach)
+				{
+					continue;
+				}
+				if (_maxDownwardReach.HasValue && heightDifference < -_maxDownwardReach)
 				{
 					continue;
 				}
