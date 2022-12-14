@@ -28,10 +28,11 @@ sealed class HillTraverser
 			return 0;
 		}
 		Dictionary<Point, int> visited = new();
-		PriorityQueue<Point, int> queue = new();
-		queue.Enqueue(start, 0);
-		while (queue.TryDequeue(out Point location, out int distance))
+		Queue<(Point Location, int distance)> queue = new();
+		queue.Enqueue((start, 0));
+		while (queue.TryDequeue(out (Point, int) state))
 		{
+			(Point location, int distance) = state;
 			if (location == end)
 			{
 				return distance;
@@ -48,7 +49,7 @@ sealed class HillTraverser
 				{
 					continue;
 				}
-				queue.Enqueue(newPoint, distance + 1);
+				queue.Enqueue((newPoint, distance + 1));
 			}
 		}
 		return null; // No path found
