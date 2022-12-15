@@ -1,4 +1,4 @@
-namespace AdventOfCode.Year2022.Day13.Packet;
+namespace AdventOfCode.Year2022.Day13.Packets;
 
 sealed class PacketInteger : PacketItem, IComparable<PacketInteger>
 {
