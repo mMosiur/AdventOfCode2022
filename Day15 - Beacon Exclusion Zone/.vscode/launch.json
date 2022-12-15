@@ -13,19 +13,6 @@
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
       "stopAtEntry": false
-    },
-    {
-      "name": "Launch (example input)",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build",
-      "program": "${workspaceFolder}/bin/Debug/net7.0/Day15.dll",
-      "args": [
-        "example.txt"
-      ],
-      "cwd": "${workspaceFolder}",
-      "console": "internalConsole",
-      "stopAtEntry": false
     }
   ]
 }

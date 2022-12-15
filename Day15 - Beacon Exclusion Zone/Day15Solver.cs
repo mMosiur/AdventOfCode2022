@@ -29,8 +29,8 @@ public sealed class Day15Solver : DaySolver
 
 	public override string SolvePart1()
 	{
-		HashSet<Point> excludedPoints = new();
 		int targetRowY = _options.Part1RowY;
+		MultiRange impossibleBeaconXs = new();
 		foreach (SensorInfo sensor in _sensors)
 		{
 			int beaconDistance = MathG.ManhattanDistance(sensor.Location, sensor.ClosestBeaconLocation);
@@ -39,19 +39,50 @@ public sealed class Day15Solver : DaySolver
 			if (diff >= 0)
 			{
 				Range range = new(sensor.Location.X - diff, sensor.Location.X + diff);
-				for (int x = range.Start; x <= range.End; x++)
+				impossibleBeaconXs.Add(range);
+				if (sensor.ClosestBeaconLocation.Y == targetRowY)
 				{
-					excludedPoints.Add(new(x, targetRowY));
+					impossibleBeaconXs.Remove(sensor.ClosestBeaconLocation.Y);
 				}
-				excludedPoints.Remove(sensor.ClosestBeaconLocation);
 			}
 		}
-		int result = excludedPoints.Count;
+		int result = impossibleBeaconXs.Count;
 		return $"{result}";
+	}
+
+	private long CalculateTuningFrequency(Point point)
+	{
+		return (point.X * _options.TuningFrequencyXMultiplier) + point.Y;
 	}
 
 	public override string SolvePart2()
 	{
-		return "UNSOLVED";
+		for (int y = _options.Part2MinCoordinates; y <= _options.Part2MaxCoordinates; y++)
+		{
+			MultiRange possibleBeaconXs = new() { new Range(_options.Part2MinCoordinates, _options.Part2MaxCoordinates) };
+			foreach (SensorInfo sensor in _sensors)
+			{
+				int beaconDistance = MathG.ManhattanDistance(sensor.Location, sensor.ClosestBeaconLocation);
+				int targetRowDistance = Math.Abs(sensor.Location.Y - y);
+				int diff = beaconDistance - targetRowDistance;
+				if (diff >= 0)
+				{
+					Range range = new(sensor.Location.X - diff, sensor.Location.X + diff);
+					possibleBeaconXs.Remove(range);
+					if (!possibleBeaconXs.Any())
+					{
+						break;
+					}
+				}
+			}
+			if (possibleBeaconXs.Any())
+			{
+				int x = possibleBeaconXs.Single();
+				Point point = new(x, y);
+				long result = CalculateTuningFrequency(point);
+				return $"{result}";
+			}
+		}
+		throw new DaySolverException("No solution found");
 	}
 }
