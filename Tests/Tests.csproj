@@ -41,6 +41,7 @@
     <ProjectReference Include="..\Day10 - Cathode-Ray Tube\Day10.csproj" />
     <ProjectReference Include="..\Day11 - Monkey in the Middle\Day11.csproj" />
     <ProjectReference Include="..\Day12 - Hill Climbing Algorithm\Day12.csproj" />
+    <ProjectReference Include="..\Day15 - Beacon Exclusion Zone\Day15.csproj" />
   </ItemGroup>
 
 </Project>
