@@ -43,6 +43,7 @@
     <ProjectReference Include="..\Day12 - Hill Climbing Algorithm\Day12.csproj" />
     <ProjectReference Include="..\Day13 - Distress Signal\Day13.csproj" />
     <ProjectReference Include="..\Day14 - Regolith Reservoir\Day14.csproj" />
+    <ProjectReference Include="..\Day15 - Beacon Exclusion Zone\Day15.csproj" />
   </ItemGroup>
 
 </Project>
