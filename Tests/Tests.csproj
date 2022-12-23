@@ -42,6 +42,7 @@
     <ProjectReference Include="..\Day11 - Monkey in the Middle\Day11.csproj" />
     <ProjectReference Include="..\Day12 - Hill Climbing Algorithm\Day12.csproj" />
     <ProjectReference Include="..\Day13 - Distress Signal\Day13.csproj" />
+    <ProjectReference Include="..\Day14 - Regolith Reservoir\Day14.csproj" />
   </ItemGroup>
 
 </Project>
