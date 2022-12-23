@@ -8,13 +8,13 @@ public sealed class Day14Solver : DaySolver
 	public override int Day => 14;
 	public override string Title => "Regolith Reservoir";
 
-	private readonly Point _sandOrigin;
-	private readonly IReadOnlyList<Path> _rockPaths;
+	private readonly Point _sandSource;
+	private readonly IReadOnlyList<WaypointPath> _rockPaths;
 
 	public Day14Solver(Day14SolverOptions options) : base(options)
 	{
-		_sandOrigin = new Point(500, 0);
-		_rockPaths = InputLines.Select(Path.Parse).ToList();
+		_sandSource = new Point(options.SandSourceX, options.SandSourceY);
+		_rockPaths = InputLines.Select(WaypointPath.Parse).ToList();
 	}
 
 	public Day14Solver(Action<Day14SolverOptions> configure)
@@ -28,27 +28,15 @@ public sealed class Day14Solver : DaySolver
 
 	public override string SolvePart1()
 	{
-		Map map = Map.BuildFromRockPaths(_sandOrigin, _rockPaths);
-		int count = 0;
-		bool dropped = map.DropSand();
-		while (dropped)
-		{
-			count++;
-			dropped = map.DropSand();
-		}
-		return $"{count}";
+		Map map = Map.BuildFromRockPaths(_sandSource, _rockPaths);
+		int result = map.SimulateUntilAnOverflow();
+		return $"{result}";
 	}
 
 	public override string SolvePart2()
 	{
-		Map map = Map.BuildFromRockPaths(_sandOrigin, _rockPaths, floorOffset: 2);
-		int count = 0;
-		bool dropped = map.DropSand();
-		while (dropped)
-		{
-			count++;
-			dropped = map.DropSand();
-		}
-		return $"{count}";
+		Map map = Map.BuildFromRockPaths(_sandSource, _rockPaths, floorOffset: 2);
+		int result = map.SimulateUntilAnOverflow();
+		return $"{result}";
 	}
 }

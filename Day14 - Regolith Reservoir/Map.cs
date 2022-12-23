@@ -1,30 +1,28 @@
 namespace AdventOfCode.Year2022.Day14;
 
-class Map
+sealed class Map
 {
 	private readonly Tile[,] _tiles;
 
-	private Point SandOrigin { get; }
-	Area Bounds { get; }
+	public Point SandSource { get; }
+	public Area Bounds { get; }
+	public bool HasFloor { get; }
 	public int Width => Bounds.XRange.Count;
 	public int Height => Bounds.YRange.Count;
-	public bool HasFloor { get; }
 
-	public Map(Area bounds, Point sandOrigin, bool hasFloor = false)
+	private Map(Area bounds, Point sandSource, bool hasFloor = false)
 	{
-		if (!bounds.Contains(sandOrigin))
+		if (!bounds.Contains(sandSource))
 		{
-			throw new ArgumentException("Sand origin must be within the map bounds.", nameof(sandOrigin));
+			throw new ArgumentException("Sand source must be within the map bounds.", nameof(sandSource));
 		}
+		SandSource = sandSource;
 		Bounds = bounds;
-		SandOrigin = sandOrigin;
 		HasFloor = hasFloor;
-		int width = bounds.XRange.Count;
-		int height = bounds.YRange.Count;
-		_tiles = new Tile[width, height];
-		for (int x = 0; x < width; x++)
+		_tiles = new Tile[Width, Height];
+		for (int x = 0; x < Width; x++)
 		{
-			for (int y = 0; y < height; y++)
+			for (int y = 0; y < Height; y++)
 			{
 				_tiles[x, y] = Tile.Air;
 			}
@@ -37,62 +35,42 @@ class Map
 		private set => _tiles[p.X - Bounds.XRange.Start, p.Y - Bounds.YRange.Start] = value;
 	}
 
-	public static Map BuildFromRockPaths(Point sandOrigin, IEnumerable<Path> rockPaths, int? floorOffset = null)
+	public static Map BuildFromRockPaths(Point sandSource, IEnumerable<WaypointPath> rockPaths, int? floorOffset = null)
 	{
-		Range xRange = new(sandOrigin.X, sandOrigin.X);
-		Range yRange = new(sandOrigin.Y, sandOrigin.Y);
-		foreach (Path path in rockPaths)
+		bool hasFloor = false;
+		Range xRange = new(sandSource.X, sandSource.X);
+		Range yRange = new(sandSource.Y, sandSource.Y);
+		foreach (Point waypoint in rockPaths.SelectMany(p => p))
 		{
-			foreach (Point waypoint in path.Waypoints)
-			{
-				if (waypoint.X < xRange.Start)
-				{
-					xRange = new(waypoint.X, xRange.End);
-				}
-				else if (waypoint.X > xRange.End)
-				{
-					xRange = new(xRange.Start, waypoint.X);
-				}
-				if (waypoint.Y < yRange.Start)
-				{
-					yRange = new(waypoint.Y, yRange.End);
-				}
-				else if (waypoint.Y > yRange.End)
-				{
-					yRange = new(yRange.Start, waypoint.Y);
-				}
-			}
+			xRange = new(
+				start: Math.Min(waypoint.X, xRange.Start),
+				end: Math.Max(waypoint.X, xRange.End)
+			);
+			yRange = new(
+				start: Math.Min(waypoint.Y, yRange.Start),
+				end: Math.Max(waypoint.Y, yRange.End)
+			);
 		}
 		if (floorOffset is not null)
 		{
+			hasFloor = true;
 			int floorY = yRange.End + floorOffset.Value;
-			yRange = new(yRange.Start, floorY - 1); // The floor won't be part of the map.
-
+			yRange = new(yRange.Start, floorY - 1);
 			// We need to maximally widen the map so that it can contain the biggest potential
-			// sand pile. The sand pile will be centered on the sand origin, so we need to
-			// expand the map by the maximum possible distance from the sand origin to the
+			// sand pile. The sand pile will be centered on the sand source, so we need to
+			// expand the map by the maximum possible distance from the sand source to the
 			// edge of the map.
-			int height = yRange.End - sandOrigin.Y;
-			int left = sandOrigin.X - height;
-			int right = sandOrigin.X + height;
-			if (left < xRange.Start)
-			{
-				xRange = new(left, xRange.End);
-			}
-			if (right > xRange.End)
-			{
-				xRange = new(xRange.Start, right);
-			}
+			int height = yRange.End - sandSource.Y;
+			xRange = new(
+				start: Math.Min(sandSource.X - height, xRange.Start),
+				end: Math.Max(sandSource.X + height, xRange.End)
+			);
 		}
 		Area bounds = new(xRange, yRange);
-		bool hasFloor = floorOffset is not null;
-		Map map = new(bounds, sandOrigin, hasFloor);
-		foreach (Path path in rockPaths)
+		Map map = new(bounds, sandSource, hasFloor);
+		foreach (Point point in rockPaths.SelectMany(p => p))
 		{
-			foreach (Point point in path)
-			{
-				map[point] = Tile.Rock;
-			}
+			map[point] = Tile.Rock;
 		}
 		return map;
 	}
@@ -100,13 +78,12 @@ class Map
 	/// <summary>
 	/// Returns whether the sand particle came to rest.
 	/// </summary>
-	public bool DropSand()
+	private bool DropOneSandFrom(Point point)
 	{
-		if (this[SandOrigin] != Tile.Air)
+		if (!Bounds.Contains(point) || this[point] != Tile.Air)
 		{
-			return false; // Sand origin is covered
+			return false; // Point is already covered or not in bounds.
 		}
-		Point point = SandOrigin;
 		this[point] = Tile.Sand;
 		while (true)
 		{
@@ -157,6 +134,61 @@ class Map
 			}
 			// Sand is stationary and came to rest.
 			return true;
+		}
+	}
+
+	/// <summary>
+	/// Recursively drops all sand particles from the given point until
+	/// no more can be dropped.
+	/// IMPORTANT: it does not work if the map does not have a floor and particles
+	/// can fall off the map.
+	/// </summary>
+	private int DropSandContinuouslyFrom(Point point)
+	{
+		if (!HasFloor) throw new InvalidOperationException("Cannot drop sand continuously from a point if the map does not have a floor.");
+		if (this[point] != Tile.Air)
+		{
+			return 0; // Point is covered
+		}
+		int result = 0;
+		Point below = point + new Vector(0, 1);
+		if (Bounds.Contains(below))
+		{
+			result += DropSandContinuouslyFrom(below);
+		}
+		Point belowLeft = point + new Vector(-1, 1);
+		if (Bounds.Contains(belowLeft))
+		{
+			result += DropSandContinuouslyFrom(belowLeft);
+		}
+		Point belowRight = point + new Vector(1, 1);
+		if (Bounds.Contains(belowRight))
+		{
+			result += DropSandContinuouslyFrom(belowRight);
+		}
+		this[point] = Tile.Sand;
+		return result + 1;
+	}
+
+	/// <summary>
+	/// Returns the number of sand particles that came to rest.
+	/// </summary>
+	public int SimulateUntilAnOverflow()
+	{
+		if (HasFloor)
+		{
+			// Continuous sand dropping is only possible if there is floor present,
+			// and no sand can fall off the map.
+			return DropSandContinuouslyFrom(SandSource);
+		}
+		else // No floor
+		{
+			int count = 0;
+			while (DropOneSandFrom(SandSource))
+			{
+				count++;
+			}
+			return count;
 		}
 	}
 
