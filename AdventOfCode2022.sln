@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day14", "Day14 - Regolith R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day15", "Day15 - Beacon Exclusion Zone\Day15.csproj", "{E07E7D7C-053A-46D0-ADDC-FEF0C65BDEDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day16", "Day16 - Proboscidea Volcanium\Day16.csproj", "{46581B57-D121-4E52-87FD-DC6A1309CA57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,5 +109,9 @@ Global
 		{E07E7D7C-053A-46D0-ADDC-FEF0C65BDEDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E07E7D7C-053A-46D0-ADDC-FEF0C65BDEDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E07E7D7C-053A-46D0-ADDC-FEF0C65BDEDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46581B57-D121-4E52-87FD-DC6A1309CA57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46581B57-D121-4E52-87FD-DC6A1309CA57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46581B57-D121-4E52-87FD-DC6A1309CA57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46581B57-D121-4E52-87FD-DC6A1309CA57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
