@@ -16,3 +16,6 @@ example*.txt
 
 # Do not ignore example inputs in the Tests project
 !Tests/Inputs/*/example*.txt
+
+# Ignore Rider's .idea folder
+.idea/
