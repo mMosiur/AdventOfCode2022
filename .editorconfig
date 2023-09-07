@@ -36,3 +36,4 @@ dotnet_diagnostic.IDE0055.severity = suggestion
 dotnet_diagnostic.IDE0078.severity = suggestion
 dotnet_diagnostic.IDE0090.severity = suggestion
 dotnet_diagnostic.IDE0130.severity = suggestion
+csharp_style_var_for_built_in_types = false:suggestion

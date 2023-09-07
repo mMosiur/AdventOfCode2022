@@ -8,11 +8,15 @@ public sealed class Day16Solver : DaySolver
 	public override int Day => 16;
 	public override string Title => "Proboscidea Volcanium";
 
+	public Day16SolverOptions Options { get; }
+	private ValveMap ValveMap { get; }
+
 	public Day16Solver(Day16SolverOptions options) : base(options)
 	{
-		// Initialize Day16 solver here.
-		// Property `Input` contains the raw input text.
-		// Property `InputLines` enumerates lines in the input text.
+		Options = options;
+		InputReader inputReader = new InputReader();
+		var valves = inputReader.ReadInput(InputLines);
+		ValveMap = new(valves, Options.StartingValveName);
 	}
 
 	public Day16Solver(Action<Day16SolverOptions> configure)
@@ -26,7 +30,10 @@ public sealed class Day16Solver : DaySolver
 
 	public override string SolvePart1()
 	{
-		return "UNSOLVED";
+		ValveMap.Optimize();
+		var traverser = new ValveMapTraverser(ValveMap, Options.TimeInMinutes);
+		int maxPressure = traverser.Traverse();
+		return $"{maxPressure}";
 	}
 
 	public override string SolvePart2()
