@@ -30,8 +30,11 @@ public sealed class Day16Solver : DaySolver
 
 	public override string SolvePart1()
 	{
-		ValveMap.Optimize();
-		var traverser = new ValveMapTraverser(ValveMap, Options.TimeInMinutes);
+		var traverser = new SingleAgentTraverser(ValveMap, Options.Part1TimeInMinutes);
+		if (!ValveMap.IsOptimized)
+		{
+			ValveMap.Optimize();
+		}
 		int maxPressure = traverser.Traverse();
 		return $"{maxPressure}";
 	}

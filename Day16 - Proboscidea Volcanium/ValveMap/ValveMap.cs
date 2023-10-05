@@ -4,6 +4,7 @@ internal sealed class ValveMap
 {
 	private readonly List<Valve> _valves;
 	public Valve StartingValve { get; }
+	public bool IsOptimized { get; private set; }
 
 	public IReadOnlyList<Valve> Valves => _valves;
 
@@ -11,6 +12,7 @@ internal sealed class ValveMap
 	{
 		_valves = valves.ToList();
 		StartingValve = _valves.First(v => v.Name == startingValveName);
+		IsOptimized = false;
 	}
 
 	private void GenerateIndexes()
@@ -23,6 +25,7 @@ internal sealed class ValveMap
 
 	public void Optimize()
 	{
+		if (IsOptimized) return;
 		var zeroFlowRateValves = _valves.Where(v => v.FlowRate == 0 && v != StartingValve).ToList();
 		foreach (Valve zeroValve in zeroFlowRateValves)
 		{
@@ -40,5 +43,6 @@ internal sealed class ValveMap
 			}
 		}
 		GenerateIndexes();
+		IsOptimized = true;
 	}
 }
