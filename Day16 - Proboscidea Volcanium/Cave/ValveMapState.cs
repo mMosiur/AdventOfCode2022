@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace AdventOfCode.Year2022.Day16;
+namespace AdventOfCode.Year2022.Day16.Cave;
 
 internal readonly record struct ValveMapState(ulong EncodedState)
 {

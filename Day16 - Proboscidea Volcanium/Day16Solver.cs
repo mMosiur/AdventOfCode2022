@@ -1,4 +1,6 @@
 using AdventOfCode.Abstractions;
+using AdventOfCode.Year2022.Day16.Cave;
+using AdventOfCode.Year2022.Day16.SingleAgent;
 
 namespace AdventOfCode.Year2022.Day16;
 
@@ -41,6 +43,12 @@ public sealed class Day16Solver : DaySolver
 
 	public override string SolvePart2()
 	{
-		return "UNSOLVED";
+		var traverser = new DualAgentTraverser(ValveMap, Options.Part2TimeInMinutes);
+		if (!ValveMap.IsOptimized)
+		{
+			ValveMap.Optimize();
+		}
+		int maxPressure = traverser.Traverse();
+		return $"{maxPressure}";
 	}
 }

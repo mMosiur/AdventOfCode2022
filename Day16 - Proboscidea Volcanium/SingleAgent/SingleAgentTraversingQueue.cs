@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode.Year2022.Day16;
+﻿namespace AdventOfCode.Year2022.Day16.SingleAgent;
 
 internal sealed partial class SingleAgentTraverser
 {

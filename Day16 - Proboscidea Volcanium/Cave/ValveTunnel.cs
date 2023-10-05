@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace AdventOfCode.Year2022.Day16;
+namespace AdventOfCode.Year2022.Day16.Cave;
 
 internal record struct ValveTunnel
 {
