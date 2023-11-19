@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>AdventOfCode.Year2022.Day08</RootNamespace>
@@ -10,8 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.2" />
-    <PackageReference Include="mMosiur.AdventOfCode.Abstractions" Version="4.3.1" />
-    <PackageReference Include="mMosiur.AdventOfCode.Common" Version="0.0.3" />
+    <PackageReference Include="mMosiur.AdventOfCode.Abstractions" Version="4.4.0" />
+    <PackageReference Include="mMosiur.AdventOfCode.Common" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>
